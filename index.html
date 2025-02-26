@@ -1,0 +1,87 @@
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/gh/extreemo100/pikachugltf/mindar-image-three.prod.js"></script>
+    <style>
+      html, body {position: relative; margin: 0; width: 100%; height: 100%; overflow: hidden;}
+      button {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 10px 20px;
+        font-size: 16px;
+        color: #fff;
+        background-color: #000;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        z-index: 9999;
+      }
+      button:hover {
+        background-color: #444;
+      }
+      #more-info-button {
+        bottom: 80px; /* Position above the Lubricant Finder button */
+      }
+    </style>
+  </head>
+  <body>
+    <script type="module">
+      import {loadGLTF} from "./loader.js";
+      const THREE = window.MINDAR.IMAGE.THREE;
+
+      document.addEventListener('DOMContentLoaded', () => {
+        // Create the Lubricant Finder button
+        const lubricantButton = document.createElement("button");
+        lubricantButton.innerText = "Lubricant Finder";
+        lubricantButton.addEventListener("click", () => {
+          window.location.href = "https://psopk.com/en/lubricants/lubricant-finder";
+        });
+        document.body.appendChild(lubricantButton);
+
+        // Create the More Information button
+        const moreInfoButton = document.createElement("button");
+        moreInfoButton.innerText = "More Information";
+        moreInfoButton.id = "more-info-button";
+        moreInfoButton.addEventListener("click", () => {
+          window.open('https://pso-pocketguide.vercel.app/?animation=6', '_blank'); // Open index.html with the 6th animation
+        });
+        document.body.appendChild(moreInfoButton);
+
+        const start = async() => {
+          const mindarThree = new window.MINDAR.IMAGE.MindARThree({
+            container: document.body,
+            imageTargetSrc: 'carient_plus_20W_50.mind',
+          });
+          const {renderer, scene, camera} = mindarThree;
+
+          const light = new THREE.HemisphereLight( 0xffffff, 0xbbbbff, 1 );
+          scene.add(light);
+
+          const gltf = await loadGLTF('carient_plus_20W_50_spin.glb');
+          gltf.scene.scale.set(0.1,0.1,0.1);
+          gltf.scene.position.set(0, -0.4, 0);
+
+          const anchor = mindarThree.addAnchor(0);
+          anchor.group.add(gltf.scene);
+
+          const mixer = new THREE.AnimationMixer(gltf.scene);
+          const action = mixer.clipAction(gltf.animations[0]);
+          action.play();
+
+          const clock = new THREE.Clock();
+
+          await mindarThree.start();
+          renderer.setAnimationLoop(() => {
+            const delta = clock.getDelta();
+            gltf.scene.rotation.set(0, 0, 0);
+            mixer.update(delta);
+            renderer.render(scene, camera);
+          });
+        };
+        start();
+      });
+    </script>
+  </body>
+</html>
