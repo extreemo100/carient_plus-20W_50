@@ -2,27 +2,56 @@
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/gh/extreemo100/pikachugltf/mindar-image-three.prod.js"></script>
-    <style>
+   <style>
       html, body {position: relative; margin: 0; width: 100%; height: 100%; overflow: hidden;}
-      button {
+      button, img {
         position: absolute;
-        bottom: 20px;
-        left: 50%;
-        transform: translateX(-50%);
+        cursor: pointer;
+        z-index: 9999;
+      }
+      button {
         padding: 10px 20px;
         font-size: 16px;
         color: #fff;
         background-color: #000;
         border: none;
         border-radius: 5px;
-        cursor: pointer;
-        z-index: 9999;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
       }
       button:hover {
         background-color: #444;
       }
-      #more-info-button {
+      #lubricant-finder-img {
+        width: 290px; /* Adjust the width as needed */
+        height: auto; /* Maintain aspect ratio */
+        bottom: 10px; /* Position at the bottom */
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      #more-info-img {
+        width: 290px; /* Adjust the width as needed */
+        height: auto; /* Maintain aspect ratio */
         bottom: 80px; /* Position above the Lubricant Finder button */
+        left: 50%;
+        transform: translateX(-50%);
+      }
+      /* Styles for the top-left images */
+      .top-left {
+        top: 20px;
+        left: 0px;
+        width: 250px; /* Adjust the width as needed */
+        height: auto; /* Maintain aspect ratio */
+        display: none; /* Initially hidden */
+      }
+      /* Styles for the top-right images */
+      .top-right {
+        top: 20px;
+        right: 0px;
+        width: 250px; /* Adjust the width as needed */
+        height: auto; /* Maintain aspect ratio */
+        display: none; /* Initially hidden */
       }
     </style>
   </head>
